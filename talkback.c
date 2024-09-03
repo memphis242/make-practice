@@ -26,7 +26,7 @@ int main(void)
     printf("Well, %s, your volume is %2.2f cubic feet.\n", name, (double)volume);
 
     printf("Also, your first name has %d letters,\n", name_length);
-    printf("and we have %d bytes to store it. It's size is %d.", name_length, name_size);
+    printf("and we have %d bytes to store it.", name_length, name_size);
 
     return 0;
 }
