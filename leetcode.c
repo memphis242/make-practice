@@ -1,76 +1,117 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <math.h>
 
-bool divideArray(const int * nums, const int numsSize)
+long long int int_pow(int base, int exponent)
 {
-   bool result = true;
-   unsigned int counts[501] = {0}; // Array to count occurrences of each number (0-500)
-   int maxCount = 0;
+   int result = 1;
 
-   if ( (nums != NULL) && (numsSize > 0) && ((numsSize % 2) == 0) )
+   for ( int i = 0; i < exponent; i++ )
    {
-      for ( int i = 0; i < numsSize; i++ )
-      {
-         if ( counts[nums[i]] > 0 )
-         {
-            counts[nums[i]]--;  // Decrement the count if the number has been seen before
-         }
-         else
-         {
-            counts[nums[i]]++; // Increment the count for the current number
-         }
+      result *= base;
+   }
 
-         if ( nums[i] > maxCount )
-         {
-            maxCount = nums[i]; // Update maxCount if current count is greater
-         }
-      }
+   return result;
+}
 
-      for (int i = 0; i <= maxCount; i++)
-      {
-         if ( counts[i] != 0 ) { // Check if the count is nonzero
-            result = false; // If any count is non-zero, we didn't find a match for it, so return false
-            break;
-         }
-      }
+bool isPalindrome(int x)
+{
+   bool retVal = false;
+
+   int digit_stack[11];
+   int top = -1;
+   long long int temp = (long int)x;
+
+   if ( (x < 0) || ( ((x % 10) == 0) && (x != 0) ) )
+   {
+      // Leave retVal to initialized value
+   }
+   else if ( (x % 10) == x )
+   {
+      retVal = true;
    }
    else
    {
-      // Initial conditions indicate that nums cannot be divided into pairs
-      result = false;
+      do
+      {
+         top++;
+         digit_stack[top] = temp % 10;
+         temp /= 10;
+      } while ( temp > 0 );   // Keep going until we get the last digit
+
+      temp = 0;
+      for ( int i = 0; i <= top; i++ )
+      {
+         temp += ( (long long int)digit_stack[i] ) * int_pow(10, top - i);
+      }
+
+      retVal = (temp == (long long int)x);
    }
 
-   return result; // If all counts are even, return true
+   return retVal;
 }
 
 int main(void)
 {
-   const int nums1[] = {3, 2, 3, 2, 2, 2};
-   const int numsSize1 = sizeof(nums1) / sizeof(nums1[0]);
-   printf("Test case 1: nums = {");
-   for (int i = 0; i < numsSize1; i++) {
-      printf("%d", nums1[i]);
-      if (i < numsSize1 - 1) {
-         printf(", ");
-      }
+   int test_num = 1234567899; // Example of a non-palindrome
+   if (isPalindrome(test_num))
+   {
+      printf("%d is a palindrome.\n", test_num);
    }
-   printf("}, numsSize = %d\n", numsSize1);
-   bool result1 = divideArray(nums1, numsSize1);
-   printf("Result: %s\n", result1 ? "true" : "false");
-
-   const int nums2[] = {3, 2, 3, 2, 2, 2, 1, 5, 2, 2, 1, 1, 1, 1, 1, 6, 2, 3, 6, 1, 2, 0, 1, 2, 22, 24, 22, 24, 0, 7000};
-   const int numsSize2 = sizeof(nums2) / sizeof(nums2[0]);
-   printf("Test case 2: nums = {");
-   for (int i = 0; i < numsSize2; i++) {
-      printf("%d", nums2[i]);
-      if (i < numsSize2 - 1) {
-         printf(", ");
-      }
+   else
+   {
+      printf("%d is not a palindrome.\n", test_num);
    }
-   printf("}, numsSize = %d\n", numsSize2);
-   bool result2 = divideArray(nums2, numsSize2);
-   printf("Result: %s\n", result2 ? "true" : "false");
 
-    return 0;
+   test_num = 11; // Example of a palindrome
+   if (isPalindrome(test_num))
+   {
+      printf("%d is a palindrome.\n", test_num);
+   }
+   else
+   {
+      printf("%d is not a palindrome.\n", test_num);
+   }
+
+   test_num = 121; // Example of a palindrome
+   if (isPalindrome(test_num))
+   {
+      printf("%d is a palindrome.\n", test_num);
+   }
+   else
+   {
+      printf("%d is not a palindrome.\n", test_num);
+   }
+   test_num = -121; // Example of a non-palindrome
+   if (isPalindrome(test_num))
+   {
+      printf("%d is a palindrome.\n", test_num);
+   }
+   else
+   {
+      printf("%d is not a palindrome.\n", test_num);
+   }
+
+   test_num = 10; // Example of a non-palindrome
+   if (isPalindrome(test_num))
+   {
+      printf("%d is a palindrome.\n", test_num);
+   }
+   else
+   {
+      printf("%d is not a palindrome.\n", test_num);
+   }
+
+   test_num = 0; // Example of a palindrome
+   if (isPalindrome(test_num))
+   {
+      printf("%d is a palindrome.\n", test_num);
+   }
+   else
+   {
+      printf("%d is not a palindrome.\n", test_num);
+   }
+
+   return 0;
 }
