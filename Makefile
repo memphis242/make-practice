@@ -2,8 +2,7 @@
 CROSS	= 
 CC		= $(CROSS)gcc
 COMPILER_WARNING_FLAGS = -Wall -Wextra -Wconversion -Wdouble-promotion -Wnull-dereference -Wwrite-strings -Wformat=2 -Wcast-align=strict -Wswitch-enum -Wpedantic
-COMPILER_SANITIZERS = -fsanitize=undefined -fsanitize=bool -fsanitize=bounds-strict
-# COMPILER_SANITIZERS = -fsanitize=bool -fsanitize=undefined -fsanitize-trap # ubsanlib has not been ported to Windows yet
+COMPILER_SANITIZERS = -fsanitize=bool -fsanitize=undefined -fsanitize-trap
 COMPILER_OPTIMIZATION_LEVEL = -Og -g3
 COMPILER_OPTIMIZATION_LEVEL_SPEED = -O3
 COMPILER_OPTIMIZATION_LEVEL_SPACE = -Os
