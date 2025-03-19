@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-bool divideArray(int* nums, int numsSize)
+bool divideArray(const int * nums, const int numsSize)
 {
    bool result = true;
    unsigned int counts[501] = {0}; // Array to count occurrences of each number (0-500)
@@ -44,26 +44,33 @@ bool divideArray(int* nums, int numsSize)
    return result; // If all counts are even, return true
 }
 
-// write a main functin that calls divideArray with a test case
-int main() {
-   
-    int nums[] = {1, 2, 3, 4, 5, 6, 1, 2, 3, 4}; // Example test case
-    int numsSize = sizeof(nums) / sizeof(nums[0]);
+int main(void)
+{
+   const int nums1[] = {3, 2, 3, 2, 2, 2};
+   const int numsSize1 = sizeof(nums1) / sizeof(nums1[0]);
+   printf("Test case 1: nums = {");
+   for (int i = 0; i < numsSize1; i++) {
+      printf("%d", nums1[i]);
+      if (i < numsSize1 - 1) {
+         printf(", ");
+      }
+   }
+   printf("}, numsSize = %d\n", numsSize1);
+   bool result1 = divideArray(nums1, numsSize1);
+   printf("Result: %s\n", result1 ? "true" : "false");
 
-    if (divideArray(nums, numsSize)) {
-        printf("The array can be divided into pairs.\n");
-    } else {
-        printf("The array cannot be divided into pairs.\n");
-    }
-
-    int nums2[] = {1, 1, 2, 2, 3, 3, 4, 4}; // Example test case 2
-    int numsSize2 = sizeof(nums2) / sizeof(nums2[0]);
-
-    if (divideArray(nums2, numsSize2)) {
-        printf("The array can be divided into pairs.\n");
-    } else {
-        printf("The array cannot be divided into pairs.\n");
-    }
+   const int nums2[] = {3, 2, 3, 2, 2, 2, 1, 5, 2, 2, 1, 1, 1, 1, 1, 6, 2, 3, 6, 1, 2, 0, 1, 2, 22, 24, 22, 24, 0, 7000};
+   const int numsSize2 = sizeof(nums2) / sizeof(nums2[0]);
+   printf("Test case 2: nums = {");
+   for (int i = 0; i < numsSize2; i++) {
+      printf("%d", nums2[i]);
+      if (i < numsSize2 - 1) {
+         printf(", ");
+      }
+   }
+   printf("}, numsSize = %d\n", numsSize2);
+   bool result2 = divideArray(nums2, numsSize2);
+   printf("Result: %s\n", result2 ? "true" : "false");
 
     return 0;
 }
