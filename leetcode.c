@@ -20,6 +20,7 @@ struct ListNode
 };
 
 static const unsigned char MAX_ITERATIONS = 100;
+static const unsigned char MAX_DIGITS_EASILY_REPRESENTABLE = 18;
 static struct ListNode DEFAULT_LIST = { .val = 0, .next = NULL };
 
 /* Local Function Declarations */
@@ -97,28 +98,28 @@ int main(void)
 
    /*********************************************************************/
 
-//   printf("\n");
-//
-//   printf("Round Two!\n");
-//
-//   printf("First Number: %d\t\t", GetNumberFromList(&test3_1, NULL));
-//   printf("First Number List: ");
-//   printList(&test3_1);
-//   printf("Second Number: %d\t\t", GetNumberFromList(&test4_1, NULL));
-//   printf("Second Number List: ");
-//   printList(&test4_1);
-//
-//   result = addTwoNumbers(&test3_1, &test4_1);
-//   result_num = GetNumberFromList(result, NULL);
-//
-//   printf("Sum Number: %d\t\t", GetNumberFromList(result, NULL));
-//   printf("Sum List: ");
-//   printList(result);
-//   freeList(result);
-//
-//   assert( GetNumberFromList(&test3_1, NULL) == 9999999u );
-//   assert( GetNumberFromList(&test4_1, NULL) == 9999u );
-//   assert( result_num == 10009998u );
+   printf("\n\n");
+
+   printf("Round Two!\n");
+
+   printf("First Number: %d\t\t", GetNumberFromList(&test3_1, NULL));
+   printf("First Number List: ");
+   printList(&test3_1);
+   printf("Second Number: %d\t\t", GetNumberFromList(&test4_1, NULL));
+   printf("Second Number List: ");
+   printList(&test4_1);
+
+   result = addTwoNumbers(&test3_1, &test4_1);
+   result_num = GetNumberFromList(result, NULL);
+
+   printf("Sum Number: %d\t\t", GetNumberFromList(result, NULL));
+   printf("Sum List: ");
+   printList(result);
+   freeList(result);
+
+   assert( GetNumberFromList(&test3_1, NULL) == 9999999u );
+   assert( GetNumberFromList(&test4_1, NULL) == 9999u );
+   assert( result_num == 10009998u );
 
    /*********************************************************************/
 
@@ -165,7 +166,7 @@ static unsigned int GetNumberFromList(const struct ListNode * list_head, unsigne
 
    num = list_head->val;
    iterator = list_head;
-   while ( (j < MAX_ITERATIONS) && (iterator->next != NULL) )
+   while ( (j < MAX_DIGITS_EASILY_REPRESENTABLE) && (iterator->next != NULL) )
    {
       j++;
       iterator = iterator->next;
@@ -247,9 +248,31 @@ static struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
    // Add column-wise, accounting for carry-over
    sum_list = (struct ListNode *)malloc(sizeof(struct ListNode));
    iterator = sum_list;
-   while ( (NULL != l1) || (NULL != l2) )
+   while ( (l1 != NULL) || (l2 != NULL) || (carry == true) )
    {
-      temp = l1->val + l2->val + carry;
+      unsigned char a;
+      unsigned char b;
+
+      // Get next numbers to add, accounting for the possiblity that we reached the end of one list
+      if ( l1 != NULL )
+      {
+         a = l1->val;
+      }
+      else
+      {
+         a = 0;
+      }
+
+      if ( l2 != NULL )
+      {
+         b = l2->val;
+      }
+      else
+      {
+         b = 0;
+      }
+
+      temp = a + b + carry;
       carry = (temp > 9u);
       if ( carry )
       {
@@ -260,7 +283,7 @@ static struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
          iterator->val = temp;
       }
 
-      if ( (NULL != l1->next) || (NULL != l2->next) )
+      if ( ( (l1 != NULL) && (l1->next != NULL) ) || ( (l2 != NULL) && (l2->next != NULL) ) || (carry == true) )
       {
          iterator->next = (struct ListNode *)malloc(sizeof(struct ListNode));
          iterator = iterator->next;
@@ -270,8 +293,8 @@ static struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2)
          iterator->next = NULL;
       }
 
-      l1 = l1->next;
-      l2 = l2->next;
+      if ( l1 != NULL )  l1 = l1->next;
+      if ( l2 != NULL )  l2 = l2->next;
    }
    
    return sum_list;
