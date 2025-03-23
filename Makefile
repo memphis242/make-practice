@@ -13,6 +13,16 @@ LST_CFLAGS = $(COMPILER_WARNING_FLAGS) $(COMPILER_OPTIMIZATION_LEVEL)
 LDFLAGS = 
 
 # TODO: Debug build vs Release build
+reverseALinkedList.lst: reverseALinkedList.exe
+	objdump -D $< > $@
+
+reverseALinkedList.exe: reverseALinkedList.o
+	$(CC) $(LDLFLAGS) $< -o $@
+
+reverseALinkedList.o: reverseALinkedList.c
+	$(CC) -c $(CFLAGS) $<
+	cppcheck $<
+
 # leetcode_small.lst: leetcode_small.exe
 # 	objdump -D $< > $@
 # 
