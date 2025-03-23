@@ -71,8 +71,8 @@ unsigned int GetNumberFromList(const struct ListNode * list_head, unsigned char 
 
 struct ListNode * ConstructListFromNumber(unsigned int num, const unsigned char MAX_DIGITS)
 {
-   struct ListNode * iterator;
-   struct ListNode * list_head;
+   struct ListNode * iterator = NULL;
+   struct ListNode * list_head = NULL;
 
    for ( unsigned char k = 0; k < MAX_DIGITS; k++ )
    {
