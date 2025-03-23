@@ -39,6 +39,7 @@ leetcode.exe: leetcode.o
 
 leetcode.o: leetcode.c
 	$(CC) -c $(CFLAGS) $<
+	cppcheck $<
 
 # file_under_test.exe: file_under_test.o
 # 	$(CC) $(LDLFLAGS) $< -o $@
